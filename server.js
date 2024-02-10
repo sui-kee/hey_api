@@ -3,11 +3,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Import Product model and connect to MongoDB
 const Products = require("./modals/products");
-mongoose.connect(process.env.MONGO_DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_DB_URI, { })
     .then(() => console.log("Connected to MongoDB"))
     .catch(error => console.error("Error connecting to MongoDB:", error));
 
@@ -32,11 +32,20 @@ app.post("/products", async (req, res) => {
 // Root route
 app.get("/products", async (req, res) => {
     try {
+        const {sortBy,type} = req.query
+        let sortOption = {}
+        if (sortBy === 'price') {
+            sortOption = { price: -1 };
+        } else if (sortBy === 'discountPercent') {
+            sortOption = { discountPercent: -1 };
+        } else if (sortBy === 'name') {
+            sortOption = { name: 1 };
+        }
         // Query the database to retrieve all products
-        const products = await Products.find();
+        const products = await Products.find({type:type}).sort(sortOption);
 
         // Respond with the retrieved products
-        res.json(products);
+        res.status(201).json(products);
     } catch (error) {
         // If there's an error, respond with an error status and message
         console.error("Error retrieving products:", error);
