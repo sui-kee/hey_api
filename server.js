@@ -54,12 +54,40 @@ app.get("/products", async (req, res) => {
 });
 
 //for discounted products
-app.get("/products/discount", async (req, res) => {
+app.get("/products/discount/dress", async (req, res) => {
     try {
         // Query the database to retrieve products where discountPercent is greater than 0
-        const products = await Products.find({ discountPercent: { $gt: 0 },type:req.query.type });
+        const products = await Products.find({ discountPercent: { $gt: 0 },type:"dress"});
 
         // Respond with the retrieved products
+        console.log("dress api");
+        res.status(200).json(products);
+    } catch (error) {
+        // If there's an error, respond with an error status and message
+        console.error("Error retrieving products:", error);
+        res.status(500).json({ error: "Failed to retrieve products" });
+    }
+});
+app.get("/products/discounts", async (req, res) => {
+    try {
+        // Query the database to retrieve products where discountPercent is greater than 0
+        const products = await Products.find({ discountPercent: { $gt: 0 }});
+
+        // Respond with the retrieved products
+        res.status(200).json(products);
+    } catch (error) {
+        // If there's an error, respond with an error status and message
+        console.error("Error retrieving products:", error);
+        res.status(500).json({ error: "Failed to retrieve products" });
+    }
+});
+app.get("/products/discount/hoody", async (req, res) => {
+    try {
+        // Query the database to retrieve products where discountPercent is greater than 0
+        const products = await Products.find({ discountPercent: { $gt: 0 },type:"hoody"});
+
+        // Respond with the retrieved products
+        console.log("hoody api");
         res.status(200).json(products);
     } catch (error) {
         // If there's an error, respond with an error status and message
