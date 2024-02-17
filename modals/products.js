@@ -9,8 +9,6 @@
 //     "solded": 0,
 //     "description": " Most attractive ones these days. It became one of trending sneakers. Start trending since 2022 "
 // }
-//hoodies - From chic and sophisticated dresses that exude elegance to effortlessly cool hoodies perfect for any casual occasion, our range caters to every taste and preference. 
-//dresses -  Adored by fashion enthusiasts and influencers alike, our dresses and hoodies have emerged as the must-have pieces of the season.
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
 
