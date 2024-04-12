@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3001;
 
 // Import Product model and connect to MongoDB
 const Products = require("./modals/products");
+const Users = require("./modals/user")
 mongoose.connect(process.env.MONGO_DB_URI, { })
     .then(() => console.log("Connected to MongoDB"))
     .catch(error => console.error("Error connecting to MongoDB:", error));
@@ -29,6 +30,19 @@ app.post("/products", async (req, res) => {
     }
 });
 
+app.post("/user", async (req, res) => {
+    try {
+        // Create a new product instance based on the request body
+        const newUser = await Users.create(req.body);
+
+        // Respond with the saved product
+        res.status(201).json(newUser);
+    } catch (error) {
+        // If there's an error, respond with an error status and message
+        console.error("Error creating user:", error);
+        res.status(500).json({ error: "Failed to create user" });
+    }
+});
 // Root route
 app.get("/products", async (req, res) => {
     try {
