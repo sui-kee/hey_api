@@ -1,8 +1,15 @@
 require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
-
 const app = express();
+const cors = require('cors');
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+
 const PORT = process.env.PORT || 3001;
 
 // Import Product model and connect to MongoDB
@@ -43,6 +50,30 @@ app.post("/user", async (req, res) => {
         res.status(500).json({ error: "Failed to create user" });
     }
 });
+
+app.get("/user",async(req,res)=>{
+    const {email} = req.query
+    try {
+        const user = await Users.find({email:email})
+        res.status(201).json(user)
+    } catch (error) {
+        console.log(error,"from user fetching");
+        res.status(500).json({error:`error in fetching user with ${email}`})
+    }
+})
+
+app.get("/user/id",async(req,res)=>{
+    const {id} = req.query
+    try {
+        const user = await Users.find({id:id})
+        res.status(201).json(user)
+    } catch (error) {
+        console.log(error,"from user fetching");
+        res.status(500).json({error:`error in fetching user with ${email}`})
+    }
+})
+
+
 // Root route
 app.get("/products", async (req, res) => {
     try {
