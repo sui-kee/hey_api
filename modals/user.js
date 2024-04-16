@@ -27,6 +27,11 @@ const userSchema = mongoose.Schema({
     password:{
         type: String,
         required: true,
+    },
+    profileImg:{
+        type:String,
+        default: "https://firebasestorage.googleapis.com/v0/b/heyshop-9658b.appspot.com/o/hat.png?alt=media&token=da385753-74c2-4b06-8e86-1758009346a4",
+        required: true,
     }
 });
 

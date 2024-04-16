@@ -14,7 +14,8 @@ const PORT = process.env.PORT || 3001;
 
 // Import Product model and connect to MongoDB
 const Products = require("./modals/products");
-const Users = require("./modals/user")
+const Users = require("./modals/user");
+const products = require('./modals/products');
 mongoose.connect(process.env.MONGO_DB_URI, { })
     .then(() => console.log("Connected to MongoDB"))
     .catch(error => console.error("Error connecting to MongoDB:", error));
@@ -62,6 +63,17 @@ app.get("/user",async(req,res)=>{
     }
 })
 
+app.get("/users",async(req,res)=>{
+    // const {email} = req.query
+    try {
+        const users = await Users.find()
+        res.status(201).json(users)
+    } catch (error) {
+        console.log(error,"from user fetching");
+        res.status(500).json({error:`error in fetching user with ${email}`})
+    }
+})
+
 app.get("/user/id",async(req,res)=>{
     const {id} = req.query
     try {
@@ -98,6 +110,34 @@ app.get("/products", async (req, res) => {
     }
 });
 
+app.get("/allProducts", async (req, res) => {
+    try {
+        const products = await Products.find();
+
+        // Respond with the retrieved products
+        // console.log("response products from server: ",products);
+        res.status(201).json(products);
+    } catch (error) {
+        // If there's an error, respond with an error status and message
+        console.error("Error retrieving products:", error,products);
+        res.status(500).json({ error: "Failed to retrieve products" });
+    }
+});
+
+app.get("/product/id", async (req, res) => {
+    const {id} = req.query
+    try {
+        const product = await Products.find({id:id});
+
+        // Respond with the retrieved products
+        // console.log("response products from server: ",product);
+        res.status(201).json(product);
+    } catch (error) {
+        // If there's an error, respond with an error status and message
+        console.error("Error retrieving products:", error,products);
+        res.status(500).json({ error: "Failed to retrieve products" });
+    }
+});
 //for discounted products
 app.get("/products/discount/dress", async (req, res) => {
     try {
