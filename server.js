@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3001;
 const Products = require("./modals/products");
 const Users = require("./modals/user");
 const products = require('./modals/products');
+const order = require('./modals/order');
 mongoose.connect(process.env.MONGO_DB_URI, { })
     .then(() => console.log("Connected to MongoDB"))
     .catch(error => console.error("Error connecting to MongoDB:", error));
@@ -146,7 +147,7 @@ app.get("/products/discount/dress", async (req, res) => {
 
         // Respond with the retrieved products
         console.log("dress api");
-        res.status(200).json(products);
+        res.status(201).json(products);
     } catch (error) {
         // If there's an error, respond with an error status and message
         console.error("Error retrieving products:", error);
@@ -159,7 +160,7 @@ app.get("/products/discounts", async (req, res) => {
         const products = await Products.find({ discountPercent: { $gt: 0 }});
 
         // Respond with the retrieved products
-        res.status(200).json(products);
+        res.status(201).json(products);
     } catch (error) {
         // If there's an error, respond with an error status and message
         console.error("Error retrieving products:", error);
@@ -173,13 +174,24 @@ app.get("/products/discount/hoody", async (req, res) => {
 
         // Respond with the retrieved products
         console.log("hoody api");
-        res.status(200).json(products);
+        res.status(201).json(products);
     } catch (error) {
         // If there's an error, respond with an error status and message
         console.error("Error retrieving products:", error);
         res.status(500).json({ error: "Failed to retrieve products" });
     }
 });
+
+app.post("/order",async(req,res)=>{
+    try {
+        const newOrder = await order.create(req.body)
+        res.status(201).json(newOrder);
+    } catch (error) {
+        // If there's an error, respond with an error status and message
+        console.error("Error retrieving orders:", error);
+        res.status(500).json({ error: "Failed to retrieve orders" });
+    }
+})
 
 // Start the server
 app.listen(PORT, () => {
