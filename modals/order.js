@@ -16,8 +16,8 @@ const orderSchema = mongoose.Schema({
         required:true,
     },
     customer:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
+        type:Object,
+        required:true,
     },
     orderTime:{
         type:Date,
@@ -32,8 +32,8 @@ const orderSchema = mongoose.Schema({
         required:true,
     },
     products:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Product",
+        type:Object,
+        required:true,
     }],
 });
 
