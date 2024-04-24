@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Products = require("../modals/products")
 
-router.post("/products", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         // Create a new product instance based on the request body
         const newProduct = await Products.create(req.body);
@@ -17,7 +17,7 @@ router.post("/products", async (req, res) => {
     }
 });
 
-router.get("/products", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const {sortBy,type} = req.query
         let sortOption = {}
@@ -54,8 +54,8 @@ router.get("/allProducts", async (req, res) => {
     }
 });
 
-router.get("/product/id", async (req, res) => {
-    const {id} = req.query
+router.get("/:id", async (req, res) => {
+    const id = req.params.id
     try {
         const product = await Products.find({id:id});
 
@@ -69,7 +69,7 @@ router.get("/product/id", async (req, res) => {
     }
 });
 //for discounted products
-router.get("/products/discount/dress", async (req, res) => {
+router.get("/discount/dress", async (req, res) => {
     try {
         // Query the database to retrieve products where discountPercent is greater than 0
         const products = await Products.find({ discountPercent: { $gt: 0 },type:"dress"});
@@ -83,7 +83,7 @@ router.get("/products/discount/dress", async (req, res) => {
         res.status(500).json({ error: "Failed to retrieve products" });
     }
 });
-router.get("/products/discounts", async (req, res) => {
+router.get("/discounts", async (req, res) => {
     try {
         // Query the database to retrieve products where discountPercent is greater than 0
         const products = await Products.find({ discountPercent: { $gt: 0 }});
@@ -96,7 +96,7 @@ router.get("/products/discounts", async (req, res) => {
         res.status(500).json({ error: "Failed to retrieve products" });
     }
 });
-router.get("/products/discount/hoody", async (req, res) => {
+router.get("/discount/hoody", async (req, res) => {
     try {
         // Query the database to retrieve products where discountPercent is greater than 0
         const products = await Products.find({ discountPercent: { $gt: 0 },type:"hoody"});

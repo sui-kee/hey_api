@@ -43,7 +43,7 @@ router.put("/:orderId", async (req, res) => {
 
 router.get("/:orderId", async (req, res) => {
     try {
-        const order = await Order.findById(req.params.orderId);
+        const order = await Order.findOne({id:req.params.orderId});
         if (!order) {
             return res.status(404).json({ error: "Order not found" });
         }
@@ -57,11 +57,21 @@ router.get("/:orderId", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const orders = await Order.find();
-        res.json(orders);
+        res.status(201).json(orders);
     } catch (error) {
         console.error("Error retrieving orders:", error);
         res.status(500).json({ error: "Failed to retrieve orders" });
     }
 });
+
+router.get("/byUserId/:userId",async(req,res)=>{
+    try {
+        const orders = await Order.find({customerId:req.params.userId})
+        res.status(201).json(orders);
+    } catch (error) {
+        console.error("Error retrieving orders:", error);
+        res.status(500).json({ error: "Failed to retrieve orders" });
+    }
+})
 
 module.exports = router;

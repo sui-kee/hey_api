@@ -17,10 +17,10 @@ router.post("/create", async (req, res) => {
     }
 });
 
-router.get("/getUserByEmail",async(req,res)=>{
-    const {email} = req.query
+router.get("/email/:email",async(req,res)=>{
+    const email = req.params.email
     try {
-        const user = await Users.find({email:email})
+        const user = await Users.findOne({email:email})
         res.status(201).json(user)
     } catch (error) {
         console.log(error,"from user fetching");
@@ -28,11 +28,11 @@ router.get("/getUserByEmail",async(req,res)=>{
     }
 })
 
-router.get("/getAllUsers",async(req,res)=>{
+router.get("/",async(req,res)=>{
     // const {email} = req.query
     try {
         const users = await Users.find()
-        res.status(201).json(users)
+        res.status(200).json(users)
     } catch (error) {
         console.log(error,"from user fetching");
         res.status(500).json({error:`error in fetching user with ${email}`})
@@ -42,7 +42,7 @@ router.get("/getAllUsers",async(req,res)=>{
 router.get("/getUserById",async(req,res)=>{
     const {id} = req.query
     try {
-        const user = await Users.find({id:id})
+        const user = await Users.findOne({id:id})
         res.status(201).json(user)
     } catch (error) {
         console.log(error,"from user fetching");

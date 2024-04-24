@@ -19,6 +19,10 @@ const orderSchema = mongoose.Schema({
         type:Object,
         required:true,
     },
+    customerId:{
+        type:String,
+        required:true,
+    },
     orderTime:{
         type:Date,
         default:Date.now,
