@@ -11,7 +11,6 @@ const orderSchema = mongoose.Schema({
     },
     orderCode:{
         type:String,
-        default:uuidv4,
         unique:true,
         required:true,
     },
