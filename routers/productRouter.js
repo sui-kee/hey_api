@@ -9,7 +9,7 @@ router.post("/", async (req, res) => {
         const newProduct = await Products.create(req.body);
 
         // Respond with the saved product
-        res.status(201).json(newProduct);
+        res.status(200).json(newProduct);
     } catch (error) {
         // If there's an error, respond with an error status and message
         console.error("Error creating product:", error);
@@ -57,7 +57,7 @@ router.get("/allProducts", async (req, res) => {
 router.get("/:id", async (req, res) => {
     const id = req.params.id
     try {
-        const product = await Products.find({id:id});
+        const product = await Products.findOne({id:id});
 
         // Respond with the retrieved products
         // console.log("response products from server: ",product);
@@ -110,6 +110,46 @@ router.get("/discount/hoody", async (req, res) => {
         res.status(500).json({ error: "Failed to retrieve products" });
     }
 });
+
+router.put("/edit/:id", async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const updatedProduct = req.body; // New product data
+
+        // Find the product by ID and update it with the new data
+        const product = await Products.findOneAndUpdate(
+            { id: productId },
+            { $set: updatedProduct },
+            { new: true } // Return the updated product
+        );
+
+        if (!product) {
+            // If the product with the given ID doesn't exist, return a 404 error
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        // Respond with the updated product
+        res.status(200).json(product);
+    } catch (error) {
+        // If there's an error, respond with an error status and message
+        console.error("Error updating product:", error);
+        res.status(500).json({ error: "Failed to update product" });
+    }
+});
+
+router.delete("/delete/:id",async(req,res)=>{
+    try {
+        const productId = req.params.id;
+        const deleting = await Products.deleteOne({id:productId})
+        if(!deleting){
+            return res.status(404).json({ error: "Product not found" });
+        }
+        res.status(200).json(deleting)
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        res.status(500).json({ error: "Failed to delete product" });
+    }
+})
 
 
 module.exports = router;

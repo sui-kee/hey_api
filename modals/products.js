@@ -25,6 +25,7 @@ const productSchema = mongoose.Schema({
     },
     type: {
         type: String,
+        enum:["hoody","sneaker","dress","event"],
         required: true,
     },
     madeIn: {
@@ -52,10 +53,11 @@ const productSchema = mongoose.Schema({
     },
     discountPercent: {
         type: Number,
-        default: 0,
+        default:0
     },
     description: {
         type: String,
+        default:"no description...."
     },
 });
 
