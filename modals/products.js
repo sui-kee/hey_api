@@ -25,7 +25,7 @@ const productSchema = mongoose.Schema({
     },
     type: {
         type: String,
-        enum:["hoody","sneaker","dress","event"],
+        enum:["hoody","sneaker","dress","event_outfit"],
         required: true,
     },
     madeIn: {
