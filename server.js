@@ -16,7 +16,7 @@ app.use(cors(corsOptions));
 const PORT = process.env.PORT || 3001;
 
 // Import Product model and connect to MongoDB
-mongoose.connect(process.env.MONGO_DB_URI, { })
+mongoose.connect(`mongodb+srv://mesutkee:heyadmin123456@heyecommerce.vtkfohl.mongodb.net/hey_api?retryWrites=true&w=majority`, { })
     .then(() => console.log("Connected to MongoDB"))
     .catch(error => console.error("Error connecting to MongoDB:", error));
 
