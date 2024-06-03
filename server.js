@@ -13,7 +13,7 @@ const corsOptions ={
 }
 app.use(cors(corsOptions));
 
-const PORT =  3001;
+const PORT =  443;
 
 // Import Product model and connect to MongoDB
 mongoose.connect(process.env.MONGO_DB_URI, { })
@@ -36,7 +36,6 @@ process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection at:', promise, 'reason:', reason);
     // Handle the rejection or log the error
 });
-
 
 // Start the server
 app.listen(PORT, () => {
