@@ -7,13 +7,13 @@ const userRoutes = require("./routers/userRouter")
 const productRoutes = require("./routers/productRouter")
 const orderRoutes = require("./routers/orderRouter")
 const corsOptions ={
-    origin:"https://hey-e-shop.vercel.app", 
+    origin:"http://localhost:3000", 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
 app.use(cors(corsOptions));
 
-const PORT =  443;
+const PORT =  3001;
 
 // Import Product model and connect to MongoDB
 mongoose.connect(process.env.MONGO_DB_URI, { })
